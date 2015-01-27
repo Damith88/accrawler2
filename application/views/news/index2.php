@@ -16,7 +16,7 @@
                         <?php echo htmlspecialchars($news_item['content']) ?>
                     </div>
                     <p>
-                        <a class="btn" href="news/view/<?php echo $news_item['id'] ?>">View article</a>
+                        <a class="btn" href="news/<?php echo $news_item['id'] ?>">View article</a>
                         <a class="btn" href="<?php echo $news_item['sourceUrl'] ?>">View source article</a>
                     </p>
                 </li>

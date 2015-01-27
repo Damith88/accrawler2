@@ -16,13 +16,13 @@ class News extends CI_Controller {
         //$this->load->view('templates/footer');
     }
 
-    public function view($slug) {
-        $data['news_item'] = $this->news_model->get_news($slug);
+    public function view($id) {
+        $data['news_item'] = $this->news_model->get_news((int) $id);
         if (empty($data['news_item'])) {
             show_404();
         }
 
-        $data['title'] = $data['news_item']['title'];
+        $data['title'] = $data['news_item']['heading'];
         
         $this->load->library('pagination');
 
