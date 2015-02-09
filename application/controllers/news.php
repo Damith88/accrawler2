@@ -78,6 +78,7 @@ class News extends CI_Controller {
         $page = $this->uri->segment(3, 0);
 
         $data['news'] = $this->news_model->searchNews($searchParams, $pageLimit, $page);
+        $data['latest_accidents'] = $this->news_model->getLatestAccidents();
 
         $this->load->view('news/index2', $data);
     }

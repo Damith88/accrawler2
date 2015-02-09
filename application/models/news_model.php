@@ -6,12 +6,6 @@ class News_model extends CI_Model {
         parent::__construct();
         $this->load->database();
     }
-
-    public function fetchNewsArticles($pageLimit = 50) {
-        $sql = "select id, heading, content, url as sourceUrl from article where category_id = 2 order by date desc limit $pageLimit";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
     
     public function fetchNewsArticle($id) {
         $query = $this->db->query("select a.heading, a.content, a.url as sourceUrl, ai.sentences, ai.named_entity_info, ai.has_overlapping_entities "
@@ -24,6 +18,13 @@ class News_model extends CI_Model {
     public function searchNews($searchParams, $pageLimit = 10, $offset = 0) {
         list($whereClause, $params) = $this->getWhereClauseWithParams($searchParams);
         $query = $this->db->query("select id, heading, content, url as sourceUrl from article $whereClause limit $offset, $pageLimit", $params);
+        return $query->result_array();
+    }
+    
+    public function getLatestAccidents($limit = 10, $columns = array('id', 'heading, url')) {
+        $selectPart = implode(', ', $columns);
+        $sql = "select $selectPart from article where category_id = 2 order by date desc limit $limit";
+        $query = $this->db->query($sql);
         return $query->result_array();
     }
     

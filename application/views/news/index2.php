@@ -43,29 +43,28 @@
             <div class="inner">
                 <div id="sidebar">
                     <div id="profile-pic">
-                        <h1 style="font-size: 18px;">News Articles</h1>
+                        <h1 style="font-size: 18px; white-space: nowrap">Latest Accident News</h1>
                     </div>
-                    <ul id="sidenav">
-                        <?php foreach ($news as $news_item): ?>
-                            <li class="selected"><a href="<?php echo $news_item['sourceUrl'] ?>"><?php echo htmlspecialchars($news_item['heading']) ?></a></li>
-
+                    <ul id="sidenav" style="list-style-type: none; margin-left: 0px">
+                        <?php foreach ($latest_accidents as $news_item): ?>
+                            <li class="selected"><a href="<?php echo $news_item['url'] ?>"><?php echo htmlspecialchars($news_item['heading']) ?></a></li>
                         <?php endforeach; ?>
                     </ul>
-                </div> <!-- sidebar -->
-                <div class="pagination">
-                    <ul>
-                        <?php echo $pagination_helper->create_links(); ?>
-                    </ul>   
-                </div>
+                </div> <!-- sidebar -->                
                 <ul class="newsUl" style="list-style-type: none;">
-                    <?php if (count($news) > 0) {
-                        foreach ($news as $news_item):
+                    <?php if (count($news) > 0) { ?>
+                        <div class="pagination">
+                            <ul>
+                                <?php echo $pagination_helper->create_links(); ?>
+                            </ul>   
+                        </div>
+                        <?php foreach ($news as $news_item):
                             ?>
                             <li>
                                 <article>
                                     <h2><?php echo htmlspecialchars($news_item['heading']) ?></h2>
                                     <div class="content">
-        <?php echo htmlspecialchars($news_item['content']) ?>
+                                        <?php echo htmlspecialchars($news_item['content']) ?>
                                     </div>                            
                                 </article>
                                 <p>
@@ -73,7 +72,8 @@
                                     <a class="btn" href="<?php echo $news_item['sourceUrl'] ?>">View source article</a>
                                 </p>
                             </li>
-                        <?php endforeach;
+                        <?php
+                        endforeach;
                     } else {
                         ?>
                         <span>No search result found</span>
