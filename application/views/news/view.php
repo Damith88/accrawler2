@@ -11,6 +11,10 @@
 </style>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title><?php echo htmlspecialchars($news_item['heading']); ?></title>
         <link href="<?php echo asset_url('css/bootstrap.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo asset_url('css/news.css'); ?>" rel="stylesheet">
     </head>
@@ -90,17 +94,15 @@
             <a class="btn" href="<?php echo site_url("news/index"); ?>">Back to List</a>
             <a class="btn" href="<?php echo $news_item['sourceUrl'] ?>">View source article</a>
         </div>
+        <?php if ($sentences && !$news_item['has_overlapping_entities']) { ?>
         <div id="search_news" class="box">
             <div class="head">
                 <h1>Article content with names highlighted</h1>
             </div>
-            <div class="inner">
-                <?php
-                if ($sentences && !$news_item['has_overlapping_entities']) {
-                    echo implode("<br/>", $markupSentences);
-                }
-                ?>
+            <div class="inner">                
+                <?php echo implode("<br/>", $markupSentences);?>
             </div>
         </div>
+        <?php } ?>
     </body>
 </html>

@@ -20,7 +20,6 @@ class News extends CI_Controller {
         $config['per_page'] = $pageLimit;
 
         $this->pagination->initialize($config);
-        
         $data['paginator'] = $this->pagination->create_links();
     }
 
@@ -43,8 +42,8 @@ class News extends CI_Controller {
         
         $searchParams = array(
             'keyWords' => $key,
-            'from' => $from,
-            'to' => $to,
+            'fromDate' => $from,
+            'toDate' => $to,
             'location' => $location,
         );
         $data['news'] = $this->news_model->searchNews($searchParams);

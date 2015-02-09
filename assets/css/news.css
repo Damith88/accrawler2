@@ -69,3 +69,11 @@ h1#mainHeading a:hover {
 div.content {
     text-align: justify;
 }
+
+div.head h1 {
+   margin: 0px; 
+}
+
+div#sidebar h1 {
+    margin-top: 0px;
+}

@@ -23,11 +23,11 @@
                     Date Range-:
                     <span id="fromLable"></span>
                     From:
-                    <input class="calendar" type="text" id="from" name="fromDate" value="">
+                    <input class="calendar" type="text" id="from" name="fromDate" value="" placeholder="mm/dd/yyyy">
                     <br/>
                     <span id="toLable"></span>
                     To:
-                    <input class="calendar" type="text" id="to" name="toDate" value="">
+                    <input class="calendar" type="text" id="to" name="toDate" value="" placeholder="mm/dd/yyyy">
                     <br/>
                     Location:
                     <input class="inputText" type="text" id="location" name="location" value="">
@@ -54,7 +54,8 @@
                 </div> <!-- sidebar -->
 
                 <ul class="newsUl" style="list-style-type: none;">
-                    <?php foreach ($news as $news_item): ?>
+                    <?php if (count($news) > 0) {
+                        foreach ($news as $news_item): ?>
                         <li>
                             <article>
                                 <h2><?php echo htmlspecialchars($news_item['heading']) ?></h2>
@@ -67,7 +68,10 @@
                                 <a class="btn" href="<?php echo $news_item['sourceUrl'] ?>">View source article</a>
                             </p>
                         </li>
-                    <?php endforeach; ?>
+                    <?php endforeach; 
+                    } else { ?>
+                        <span>No search result found</span>
+                    <?php } ?>
                 </ul>
             </div>
         </div>

@@ -27,12 +27,11 @@ class News_model extends CI_Model {
     }
 
     public function searchNews($searchParams) {
-        $keyWord = ""; $from = ""; $to = ""; $location = "";
         $whereParts = array();
         $params = array();
         
         if (!empty($searchParams['keyWords'])) {
-            $whereParts[] = 'MATCH (heading, content) AGAINST (? IN BOOLEAN MODE)';
+            $whereParts[] = 'MATCH (heading, content) AGAINST (?)';
             $params[] = $searchParams['keyWords'];
         }
         
