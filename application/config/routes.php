@@ -40,9 +40,10 @@
 
 //$route['news/create'] = 'news/create';
 $route['news/(:num)'] = 'news/view/$1';
+$route['news/search/(:any)'] = 'news/search/$1/$2/$3';
 //$route['news'] = 'news';
 //$route['(:any)'] = 'pages/view/$1';
-$route['default_controller'] = 'pages/view';
+$route['default_controller'] = 'news/index';
 $route['404_override'] = '';
 
 
