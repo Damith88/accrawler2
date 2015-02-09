@@ -32,6 +32,11 @@
                     Location:
                     <input class="inputText" type="text" id="location" name="location" value="">
                     <br/>
+                    <input type="checkbox" name="accidentOnly" value="1" style="margin-bottom: 10px">Accident articles only
+                    <br/>
+                    <input type="checkbox" name="childOnly" value="1" style="margin-bottom: 10px">Articles related to children only
+                    <br/>
+                    <br/>
                     <button class="btn" id="searchBtn">Search</button>
                 </form>
             </div>
@@ -93,7 +98,14 @@
     var locations = <?php echo json_encode($locations); ?>;
     var filterValues = <?php echo json_encode($filters); ?>;
     $.each(filterValues, function(index, value) {
-        $("form#newsSearchForm [name='" + index + "']").val(value);
+        var elem = $("form#newsSearchForm [name='" + index + "']");
+        switch (elem.attr('type')) {
+            case 'checkbox':
+                elem.prop('checked', value);
+                break;
+            default: 
+                elem.val(value);
+        }
     });
     $(document).ready(function () {
         $('article').readmore();

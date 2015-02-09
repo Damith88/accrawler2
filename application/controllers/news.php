@@ -34,6 +34,8 @@ class News extends CI_Controller {
         $from = filter_input(INPUT_POST, 'fromDate');
         $to = filter_input(INPUT_POST, 'toDate');
         $location = filter_input(INPUT_POST, 'location');
+        $accidentOnly = filter_input(INPUT_POST, 'accidentOnly');
+        $childOnly = filter_input(INPUT_POST, 'childOnly');
 
         $fromDateObj = new DateTime($from);
         $toDateObj = new DateTime($to);
@@ -42,7 +44,9 @@ class News extends CI_Controller {
             'keyWords' => $key,
             'fromDate' => empty($from) ? null : $fromDateObj->format('Y-m-d'),
             'toDate' => empty($to) ? null : $toDateObj->format('Y-m-d'),
-            'location' => $location
+            'location' => $location,
+            'childOnly' => $childOnly,
+            'accidentOnly' => $accidentOnly
         );
 
         $this->searchWithParams($searchParams);
@@ -80,8 +84,12 @@ class News extends CI_Controller {
         $data['news'] = $this->news_model->searchNews($searchParams, $pageLimit, $page);
         $data['latest_accidents'] = $this->news_model->getLatestAccidents();
         
-        $searchParams['fromDate'] = $this->convertToDisplayDateFormat($searchParams['fromDate']);
-        $searchParams['toDate'] = $this->convertToDisplayDateFormat($searchParams['toDate']);
+        foreach (array('fromDate', 'toDate') as $val) {
+            if (!empty($searchParams[$val])) {
+                $searchParams[$val] = $this->convertToDisplayDateFormat($searchParams[$val]);
+            }
+        }
+        
         $data['filters'] = $searchParams;
 
         $this->load->view('news/index2', $data);
