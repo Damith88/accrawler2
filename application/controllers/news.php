@@ -40,36 +40,21 @@ class News extends CI_Controller {
         $to = filter_input(INPUT_POST, 'toDate');
         $location = filter_input(INPUT_POST, 'location');
         
+        $fromDateObj = new DateTime($from);
+        $toDateObj = new DateTime($to);
+        
         $searchParams = array(
             'keyWords' => $key,
-            'fromDate' => $from,
-            'toDate' => $to,
-            'location' => $location,
+            'fromDate' => empty($from) ? null : $fromDateObj->format('Y-m-d'),
+            'toDate' => empty($to) ? null : $toDateObj->format('Y-m-d'),
+            'location' => $location
         );
+        
         $data['news'] = $this->news_model->searchNews($searchParams);
         $data['title'] = 'News archive';
         $data['locations'] = $this->news_model->getNameEntityWithType("location");
 
         $this->load->view('news/index2', $data);
     }
-
-//    public function create() {
-//        $this->load->helper('form');
-//        $this->load->library('form_validation');
-//
-//        $data['title'] = 'Create a news item';
-//
-//        $this->form_validation->set_rules('title', 'Title', 'required');
-//        $this->form_validation->set_rules('text', 'text', 'required');
-//
-//        if ($this->form_validation->run() === FALSE) {
-//            $this->load->view('templates/header', $data);
-//            $this->load->view('news/create');
-//            $this->load->view('templates/footer');
-//        } else {
-//            $this->news_model->set_news();
-//            $this->load->view('news/success');
-//        }
-//    }
 
 }

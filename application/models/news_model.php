@@ -3,6 +3,7 @@
 class News_model extends CI_Model {
 
     public function __construct() {
+        parent::__construct();
         $this->load->database();
     }
 
@@ -18,12 +19,6 @@ class News_model extends CI_Model {
                 . "left join article_info ai on ai.article_id = a.id "
                 . "where a.id = $id");
         return $query->row_array();
-    }
-
-    public function get_news_withKeyWord($keyWord) {
-        $query = $this->db->query("select id, heading, content, url as sourceUrl from article "
-                . "WHERE MATCH (heading, content) AGAINST ('$keyWord*' IN BOOLEAN MODE)");
-        return $query->result_array();
     }
 
     public function searchNews($searchParams) {
@@ -61,20 +56,6 @@ class News_model extends CI_Model {
         $query = $this->db->query("select article.id AS id, article.heading AS heading, article.content AS content, article.url as sourceUrl from article $whereClause", $params);
         return $query->result_array();
     }
-
-//    public function set_news() {
-//        $this->load->helper('url');
-//
-//        $slug = url_title($this->input->post('title'), 'dash', TRUE);
-//
-//        $data = array(
-//            'title' => $this->input->post('title'),
-//            'slug' => $slug,
-//            'text' => $this->input->post('text')
-//        );
-//
-//        return $this->db->insert('news', $data);
-//    }
 
     public function getNameEntityWithType($type) {
         $query = $this->db->query("select distinct(name) as name from named_entity "
