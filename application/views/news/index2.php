@@ -15,7 +15,7 @@
                 <h1>Search News</h1>
             </div>
             <div class="inner">
-                <form action="<?php echo site_url('news/search'); ?>" method="POST">
+                <form id="newsSearchForm" action="<?php echo site_url('news/search'); ?>" method="POST">
                     Key Word:
                     <input class="inputText" type="text" id="keyWords" name="keyWords" value="">
                     <br/>
@@ -91,11 +91,13 @@
 </html>
 <script type="text/javascript">
     var locations = <?php echo json_encode($locations); ?>;
+    var filterValues = <?php echo json_encode($filters); ?>;
+    $.each(filterValues, function(index, value) {
+        $("form#newsSearchForm [name='" + index + "']").val(value);
+    });
     $(document).ready(function () {
         $('article').readmore();
-
         $('input.calendar').datepicker();
-
         $("#location").autocomplete({source: locations});
     });
 </script>

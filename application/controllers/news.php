@@ -79,8 +79,20 @@ class News extends CI_Controller {
 
         $data['news'] = $this->news_model->searchNews($searchParams, $pageLimit, $page);
         $data['latest_accidents'] = $this->news_model->getLatestAccidents();
+        
+        $searchParams['fromDate'] = $this->convertToDisplayDateFormat($searchParams['fromDate']);
+        $searchParams['toDate'] = $this->convertToDisplayDateFormat($searchParams['toDate']);
+        $data['filters'] = $searchParams;
 
         $this->load->view('news/index2', $data);
+    }
+    
+    private function convertToDisplayDateFormat($dateString) {
+        if (empty($dateString)) {
+            return '';
+        }
+        $dateObj = new DateTime($dateString);
+        return $dateObj->format('m/d/Y');
     }
 
     private function saveFilterCriteriaToSession($filterCriteria) {
