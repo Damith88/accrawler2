@@ -224,7 +224,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = '123';
 
 /*
 |--------------------------------------------------------------------------
@@ -357,7 +357,8 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
-$config['items_per_page'] = 50;
+$config['items_per_page'] = 10;
+$config['default_filters'] = array('accidentOnly' => 1);
 
 
 /* End of file config.php */

@@ -21,9 +21,28 @@ class News_model extends CI_Model {
         return $query->row_array();
     }
 
-    public function searchNews($searchParams) {
+    public function searchNews($searchParams, $pageLimit = 10, $offset = 0) {
+        list($whereClause, $params) = $this->getWhereClauseWithParams($searchParams);
+        $query = $this->db->query("select id, heading, content, url as sourceUrl from article $whereClause limit $offset, $pageLimit", $params);
+        return $query->result_array();
+    }
+    
+    public function getRecordCount($searchParams) {
+        list($whereClause, $params) = $this->getWhereClauseWithParams($searchParams);
+        return $this->db->query("select count(*) as count from article $whereClause", $params)->row()->count;
+    }
+    
+    protected function getWhereClauseWithParams(array $searchParams = array()) {
         $whereParts = array();
         $params = array();
+        
+        if (!empty($searchParams['accidentOnly'])) {
+            $whereParts[] = 'category_id = 2';
+        }
+        
+        if (!empty($searchParams['childOnly'])) {
+            $whereParts[] = 'id IN (select article_id from article_tag where tag_id = 1)';
+        }
         
         if (!empty($searchParams['keyWords'])) {
             $whereParts[] = 'MATCH (heading, content) AGAINST (?)';
@@ -53,8 +72,7 @@ class News_model extends CI_Model {
         if ($whereClause) {
             $whereClause = 'WHERE ' . $whereClause;
         }
-        $query = $this->db->query("select article.id AS id, article.heading AS heading, article.content AS content, article.url as sourceUrl from article $whereClause", $params);
-        return $query->result_array();
+        return array($whereClause, $params);
     }
 
     public function getNameEntityWithType($type) {

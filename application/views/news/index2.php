@@ -9,13 +9,13 @@
         <link href="<?php echo asset_url('css/news.css'); ?>" rel="stylesheet">
     </head>    
     <body>
-        <h1 id="mainHeading"><a href="<?php echo site_url("news/index");?>">Accrawler - News Crawler</a></h1>
+        <h1 id="mainHeading"><a href="<?php echo site_url("news/index"); ?>">Accrawler - News Crawler</a></h1>
         <div id="search_news" class="box">
             <div class="head">
                 <h1>Search News</h1>
             </div>
             <div class="inner">
-                <form action="<?php echo site_url('news/search');?>" method="POST">
+                <form action="<?php echo site_url('news/search'); ?>" method="POST">
                     Key Word:
                     <input class="inputText" type="text" id="keyWords" name="keyWords" value="">
                     <br/>
@@ -52,26 +52,32 @@
                         <?php endforeach; ?>
                     </ul>
                 </div> <!-- sidebar -->
-
+                <div class="pagination">
+                    <ul>
+                        <?php echo $pagination_helper->create_links(); ?>
+                    </ul>   
+                </div>
                 <ul class="newsUl" style="list-style-type: none;">
                     <?php if (count($news) > 0) {
-                        foreach ($news as $news_item): ?>
-                        <li>
-                            <article>
-                                <h2><?php echo htmlspecialchars($news_item['heading']) ?></h2>
-                                <div class="content">
-                                    <?php echo htmlspecialchars($news_item['content']) ?>
-                                </div>                            
-                            </article>
-                            <p>
-                                <a class="btn" href="<?php echo site_url("news/" . $news_item['id']); ?>">View article</a>
-                                <a class="btn" href="<?php echo $news_item['sourceUrl'] ?>">View source article</a>
-                            </p>
-                        </li>
-                    <?php endforeach; 
-                    } else { ?>
+                        foreach ($news as $news_item):
+                            ?>
+                            <li>
+                                <article>
+                                    <h2><?php echo htmlspecialchars($news_item['heading']) ?></h2>
+                                    <div class="content">
+        <?php echo htmlspecialchars($news_item['content']) ?>
+                                    </div>                            
+                                </article>
+                                <p>
+                                    <a class="btn" href="<?php echo site_url("news/" . $news_item['id']); ?>">View article</a>
+                                    <a class="btn" href="<?php echo $news_item['sourceUrl'] ?>">View source article</a>
+                                </p>
+                            </li>
+                        <?php endforeach;
+                    } else {
+                        ?>
                         <span>No search result found</span>
-                    <?php } ?>
+<?php } ?>
                 </ul>
             </div>
         </div>
@@ -87,7 +93,7 @@
     var locations = <?php echo json_encode($locations); ?>;
     $(document).ready(function () {
         $('article').readmore();
-        
+
         $('input.calendar').datepicker();
 
         $("#location").autocomplete({source: locations});
